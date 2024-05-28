@@ -190,20 +190,29 @@ class TestExample:
                 await many.nth(1).click()
                 await page.get_by_role("button", name="I confirm").click()
                 await page.locator('//*[@id="vui-ss-flight-tab-2-FK"]').click()
-                many = page.get_by_text(re.compile(r"Available"))  # .first.click()
+                many = page.get_by_text(re.compile(r"Available Standard"))  # .first.click()
                 print("many=", many, dir(many))
                 await many.nth(2).click() #see value if selected
                 await many.nth(1).click()
                 #await page.locator('//*[@id="vui-ss-flight-tab-1-FE"]').click()
 
             else:
-                many = page.get_by_text(re.compile(r"Available"))  # .first.click()
-                print("many=", many, dir(many))
-                await many.nth(2).click() #see value if selected
-                await many.nth(1).click()
+                many = page.get_by_text(re.compile(r"Available")).get_by_text(r"Standard")  # .first.click()
+                #many = page.locator(':has-text("Available Standard")')
+                print("many=", many.all_inner_texts())
+                print("\nText Content: ", many.nth(2).text_content())
+                import random
+                await many.nth(random.randint(1,5)).click() #see value if selected
+                #await many.nth(1).click()
+                # iConfirm = page.get_by_role("button", name="I confirm").is_visible()
+                # if iConfirm:
+                #     #await page.get_by_role("button", name="I confirm").click()
+                #     await iConfirm.click()
 
                 # remainder
                 # await page.get_by_role("button", name="Continue").click()
+            expect(page.locator(
+                '//*[@id="vui-ss-flight-view-1-FB"]/div/div[2]/div[1]/vui-seatselect-subjects/div/div/ul/li/a/vui-seatselect-subject-selection/div/div[2]/div[2]/div/div[1]')).not_to_be_empty()
             await page.get_by_label("Seat information").get_by_role("button", name="Continue").first.click()
             await page.context.storage_state(path="temp/val6.json")
             #await page.pause()
