@@ -7,6 +7,8 @@ __pycache__/
 *.so
 
 # Distribution / packaging
+.idea/
+pwreport1.html
 .Python
 build/
 develop-eggs/
@@ -127,6 +129,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+temp/
 
 # Spyder project settings
 .spyderproject

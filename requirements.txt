@@ -1,0 +1,6 @@
+pyyaml
+pytest
+pytest-html
+pytest-ordering
+pytest-playwright
+pytest-asyncio

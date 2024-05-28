@@ -1,0 +1,32 @@
+---
+# Details about User-1
+TravelPlan:
+      url: "https://flightbookings.airnewzealand.co.nz/vbook/actions/search"
+      roundTrip: False
+      startCity: Auckland
+      endCity: Wellington
+      startDate: "01/05"
+      returnDate: "03/05"
+      members:
+          adults: 1
+          children: 1
+          infants: 1
+      serviceClass: Economy
+      promoCode: ""
+Travellers:
+    - firstName: Alex
+      lastName: James
+      phone: "022456789"
+      email: alex@yopmail.com
+      userType: "adult"
+
+    - firstName: Michael
+      lastName: Tester
+      phone: "022456000"
+      userType: "adult"
+
+
+
+
+
+
