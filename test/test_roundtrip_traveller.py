@@ -42,11 +42,21 @@ class TestExample:
             await page.get_by_role("option", name="Queenstown").click()
 
             # await page.get_by_label("Leave on date, in day day").click()
-            await page.get_by_label("Leave on date, in day day").fill("29/05")
+            await page.get_by_label("Leave on date, in day day").fill(travelPlan["TravelPlan"]["startDate"]) #("29/05")
             # await page.locator("#calendarpanel-0").get_by_text("28").nth(1).click()
             if roundTrip:
                 await page.get_by_label("Return on date, in day day").click()
-                await page.locator("#calendarpanel-0").get_by_text("30").nth(1).click()
+                #await page.locator("#calendarpanel-0").get_by_text("30").nth(1).click()
+                #await page.pause()
+                #jday = travelPlan["TravelPlan"]["returnDate"].split('/')[0]
+                #print ("Day got = ", jday, type(jday))
+                #calLocator = page.locator('text=#calendarpanel-')
+                #await page.locator("#search-returndate span").click()
+                #await page.locator("#search-returndate span").fill(travelPlan["TravelPlan"]["returnDate"])
+                #await page.locator("#calendarpanel").get_by_text(jday).nth(1).click()
+                #await calLocator.get_by_text(jday).nth(1).click()
+                await page.get_by_label("Return on date, in day day").fill(travelPlan["TravelPlan"]["returnDate"])
+            await page.get_by_role("button", name="Search").focus()
             await page.context.storage_state(path="temp/val.json")
             await page.screenshot(path="temp/tc-1.png")
             await page.get_by_role("button", name="Search").click()
@@ -140,7 +150,7 @@ class TestExample:
             print(page.url)
 
             await page.get_by_role("heading", name="Extras").click()
-            print ("Is Add Tr:",page.get_by_text("Add travel insurance").is_visible())
+            #print ("Is Add Tr:",page.get_by_text("Add travel insurance").is_visible())
             count = await page.get_by_text("Add travel insurance").count()
             print ("Count:", count)
             if count:
@@ -164,17 +174,39 @@ class TestExample:
             await page.goto(URL)
             print(page.url)
             expect(page.get_by_role("heading", name="Select your seats"))
+            #await page.pause()
+            if roundTrip:
+                #tabs = page.get_by_text(re.compile(r"Tab"))
+                #tabs = page.locator('text=Tab')
+                # tabs=page.get_by_role("tab")
+                # print("Tabs: ", tabs.count(), tabs, tabs.all_inner_texts())
+                # await tabs.nth(1).click()
+                # await tabs.nth(2).click()
+                # await tabs.nth(1).click()
+                await page.locator('//*[@id="vui-ss-flight-tab-1-FE"]').click()
+                many = page.get_by_text(re.compile(r"Available"))  # .first.click()
+                print("many=", many, dir(many))
+                await many.nth(2).click()
+                await many.nth(1).click()
+                await page.get_by_role("button", name="I confirm").click()
+                await page.locator('//*[@id="vui-ss-flight-tab-2-FK"]').click()
+                many = page.get_by_text(re.compile(r"Available"))  # .first.click()
+                print("many=", many, dir(many))
+                await many.nth(2).click() #see value if selected
+                await many.nth(1).click()
+                #await page.locator('//*[@id="vui-ss-flight-tab-1-FE"]').click()
 
-            many = page.get_by_text(re.compile(r"Available"))  # .first.click()
-            print("many=", many, dir(many))
-            await many.nth(1).click()
-            await many.nth(2).click()
+            else:
+                many = page.get_by_text(re.compile(r"Available"))  # .first.click()
+                print("many=", many, dir(many))
+                await many.nth(2).click() #see value if selected
+                await many.nth(1).click()
 
-            # remainder
-            # await page.get_by_role("button", name="Continue").click()
-            await page.get_by_label("Seat information").get_by_role("button", name="Continue").click()
+                # remainder
+                # await page.get_by_role("button", name="Continue").click()
+            await page.get_by_label("Seat information").get_by_role("button", name="Continue").first.click()
             await page.context.storage_state(path="temp/val6.json")
-            # await page.pause()
+            #await page.pause()
 
     @pytest.mark.asyncio
     @pytest.mark.order(6)
@@ -189,13 +221,14 @@ class TestExample:
             page = await self.browser.new_page(storage_state="temp/val6.json")
             await page.goto(URL)
             print(page.url)
+            print(travelPlan["TravelPlan"]["card"]["cardNumber"])
             expect(page.get_by_role("heading", name="Review and pay"))
             expect(page.get_by_role("heading", name="Pay with credit"))
             await page.get_by_role("tab", name="Pay with online banking").click()
             await page.get_by_role("tab", name="Pay with credit card/travel").click()
             # Card Details - AMEX
             await page.get_by_label("Card number").click()
-            await page.get_by_label("Card number").fill("345678901234564")
+            await page.get_by_label("Card number").fill(travelPlan["TravelPlan"]["card"]["cardNumber"]) #("345678901234564")
             await page.get_by_label("Name on card").click()
             await page.get_by_label("Name on card").fill("Tom Alter")
             await page.get_by_label("Month").select_option("1")

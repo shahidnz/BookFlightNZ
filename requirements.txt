@@ -4,5 +4,4 @@ pytest-html
 pytest-ordering
 pytest-playwright
 pytest-asyncio
-
 playwright~=1.44.0
