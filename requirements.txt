@@ -1,6 +1,8 @@
-pyyaml
-pytest
+pyyaml~=6.0.1
+pytest~=8.2.1
 pytest-html
 pytest-ordering
 pytest-playwright
 pytest-asyncio
+
+playwright~=1.44.0

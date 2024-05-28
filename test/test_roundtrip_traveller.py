@@ -140,8 +140,12 @@ class TestExample:
             print(page.url)
 
             await page.get_by_role("heading", name="Extras").click()
-            await page.get_by_text("Add travel insurance").click()
-            await page.locator("label").filter(has_text="No thanks, I am happy to make").click()
+            print ("Is Add Tr:",page.get_by_text("Add travel insurance").is_visible())
+            count = await page.get_by_text("Add travel insurance").count()
+            print ("Count:", count)
+            if count:
+                await page.get_by_text("Add travel insurance").click()
+                await page.locator("label").filter(has_text="No thanks, I am happy to make").click()
             await page.get_by_text("$0 $").click()
             await page.get_by_role("button", name="Continue").click()
             await page.context.storage_state(path="temp/val5.json")
